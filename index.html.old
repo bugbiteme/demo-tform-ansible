@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<style>
+    body {
+        background-color: black;
+        color: white;
+    }
+</style>
+ 
+<body>
+    <h1>Website deployed in AWS with Ansible on a server provisioned by Terraform!!!</h1>
+</body>
+ 
+</html>
