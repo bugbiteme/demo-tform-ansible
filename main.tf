@@ -80,7 +80,7 @@ resource "aws_instance" "ansible_server" {
  
   provisioner "remote-exec" {
     inline = [
-      "sudo apt update -y"
+      "echo \"Hello World!\""
       //"software-properties-common -y",
       //"sudo apt-add-repository --yes --update ppa:ansible/ansible",
       //"sudo apt install -y ansible"
@@ -93,21 +93,33 @@ resource "aws_instance" "ansible_server" {
       private_key = tls_private_key.key.private_key_pem
     }
   }
- 
-  provisioner "local-exec" {
+
+ /*provisioner "local-exec" {
     command = "sleep 10"
   }
 
   provisioner "local-exec" {
     command = "ansible-playbook -u ubuntu --key-file ansible-key.pem -T 300 -i '${self.public_ip},', app.yml"
   }
+  */
  
 }
 
 // Output the public_ip and the Ansible command for running the playbook
 
-output "public_ip" {
- value = aws_instance.ansible_server.public_ip
+output "ec2_instance_ip" {
+  description = "IP address of the EC2 instance"
+  value       = aws_instance.ansible_server.public_ip
+}
+
+output "ec2_instance_public_dns" {
+  description = "DNS name of the EC2 instance"
+  value       = "http://${aws_instance.ansible_server.public_dns}"
+}
+
+output "connection_string" {
+  description = "Copy/Paste/Enter - You are in the matrix"
+  value       = "ssh -i ansible-key.pem ubuntu@${aws_instance.ansible_server.public_dns}"
 }
  
 output "ansible_command" {
